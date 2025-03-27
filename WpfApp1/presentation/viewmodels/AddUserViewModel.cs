@@ -1,14 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SalesManagementApp.domain.usecases;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Xml.Linq;
 using SalesManagementApp.domain.models;
 
 namespace SalesManagementApp.presentation.viewmodels
@@ -18,42 +11,39 @@ namespace SalesManagementApp.presentation.viewmodels
         private readonly IUserService _userService;
 
         [ObservableProperty]
-        private string _hoten;
+        private string hoten;
 
         [ObservableProperty]
-        private string _gioiTinh;
+        private string gioiTinh;
 
         [ObservableProperty]
-        private string _soDienThoai;
+        private string soDienThoai;
 
         [ObservableProperty]
-        private string _diaChi;
+        private string email;
 
         [ObservableProperty]
-        private string _email;
+        private string moTa;
 
-        [ObservableProperty]
-        private string _moTa;
-
-        public IRelayCommand SaveCommand { get;  }
-
-
-        public AddUserViewModel()
+        public AddUserViewModel(IUserService userService)
         {
-            SaveCommand = new RelayCommand(SaveUser);
-
+            _userService = userService ?? throw new ArgumentNullException(nameof(userService));
         }
 
         [RelayCommand]
-
-        private void SaveUser()
+        private async Task SaveUserAsync()
         {
-            User NewUser = new User(5,_hoten,_gioiTinh,_email, _moTa, false);
-            _userService.AddUserAsync(NewUser);
-            MessageBox.Show($" Họ và tên: {Hoten} Giới Tính: {GioiTinh}\nSố ĐT: {SoDienThoai}\nĐịa Chỉ: {DiaChi}\nEmail: {Email}\nMô Tả: {MoTa}", 
-                            "Thông Tin Người Dùng");
+            if (string.IsNullOrWhiteSpace(Hoten))
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var newUser = new User(0, Hoten, GioiTinh, SoDienThoai, Email, MoTa, false);
+            await _userService.AddUserAsync(newUser);
+
+            MessageBox.Show($"Họ và Tên: {Hoten}\nGiới Tính: {GioiTinh}\nSố ĐT: {SoDienThoai} \nEmail: {Email}\nMô Tả: {MoTa}",
+                            "Thông Tin Người Dùng", MessageBoxButton.OK, MessageBoxImage.Information);
         }
-
-
     }
 }

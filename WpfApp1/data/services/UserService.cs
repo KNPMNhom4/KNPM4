@@ -1,4 +1,4 @@
-﻿using SalesManagementApp.data.repositories;
+using SalesManagementApp.data.repositories;
 using SalesManagementApp.Data.Repositories;
 using SalesManagementApp.domain.models;
 using SalesManagementApp.domain.usecases;
@@ -21,7 +21,7 @@ namespace SalesManagementApp.data.services
 
         public async Task AddUserAsync(User user)
         {
-            if (string.IsNullOrWhiteSpace(user.Name))
+            if (string.IsNullOrWhiteSpace(user.Hoten))
                 throw new ArgumentException("Tên người dùng không được để trống");
 
             await _userRepository.AddUserAsync(user);

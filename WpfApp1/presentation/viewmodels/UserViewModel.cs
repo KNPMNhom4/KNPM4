@@ -1,54 +1,52 @@
-﻿ 
-using SalesManagementApp.domain.models;
-using SalesManagementApp.domain.usecases;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
- 
-using CommunityToolkit.Mvvm.ComponentModel;
+using System.Windows.Input;
+using SalesManagementApp.domain.models;
+using SalesManagementApp.data.repositories;
 using CommunityToolkit.Mvvm.Input;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
-namespace SalesManagementApp.presentation.viewmodels
+
+public class BaseViewModel : INotifyPropertyChanged
 {
-    public partial class UserViewModel : ObservableObject
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
     {
-        private readonly IUserService _userService;
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+}
 
-        [ObservableProperty]
-        private ObservableCollection<User> users = new();
 
-        public UserViewModel(IUserService userService)
-        {
-            _userService = userService;
-            LoadUsersCommand = new AsyncRelayCommand(LoadUsers);
-            AddUserCommand = new AsyncRelayCommand<User>(AddUser);
-            DeleteUserCommand = new AsyncRelayCommand<int>(DeleteUser);
-        }
+public class UserViewModel : BaseViewModel
+{
+    private readonly IUserRepository _userRepository;
+    public ObservableCollection<User> Users { get; set; } = new ObservableCollection<User>();
 
-        public IAsyncRelayCommand LoadUsersCommand { get; }
-        public IAsyncRelayCommand<User> AddUserCommand { get; }
-        public IAsyncRelayCommand<int> DeleteUserCommand { get; }
-        private async Task LoadUsers()
+    public ICommand LoadUsersCommand { get; }
+    public ICommand AddUserCommand { get; }
+
+    public UserViewModel(IUserRepository userRepository)
+    {
+        _userRepository = userRepository;
+        LoadUsersCommand = new RelayCommand(async () => await LoadUsers());
+        AddUserCommand = new RelayCommand<User>(async (user) => await AddUser(user));
+    }
+
+    private async Task LoadUsers()
+    {
+        Users.Clear(); // Xóa dữ liệu cũ trước khi load
+        var users = await _userRepository.GetUsersAsync();
+        foreach (var user in users)
         {
-            var userList = await _userService.GetUsersAsync();
-            Users.Clear();
-            foreach (var user in userList)
-            {
-                Users.Add(user);
-            }
+            Users.Add(user);
         }
-        private async Task AddUser(User user)
-        {
-            await _userService.AddUserAsync(user);
-            await LoadUsers();
-        }
-        private async Task DeleteUser(int id)
-        {
-            await _userService.DeleteUserAsync(id);
-            await LoadUsers();
-        }
+    }
+
+    private async Task AddUser(User user)
+    {
+        await _userRepository.AddUserAsync(user);
+        await LoadUsers(); // Tải lại dữ liệu từ file JSON và cập nhật giao diện
     }
 }

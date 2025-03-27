@@ -6,6 +6,7 @@ using SalesManagementApp.data.repositories;
 using SalesManagementApp.domain.models;
 
 namespace SalesManagementApp.Data.Repositories
+
 {
     public class UserRepository : IUserRepository
     {

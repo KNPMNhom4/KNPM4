@@ -1,32 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace SalesManagementApp.domain.models
 {
     public class User
     {
-        public User(int id, string name, string gioitinh, string email, string mota, bool isSelected)
+        public User(int id, string hoten, string gioitinh, string soDienThoai, string email, string mota, bool isSelected)
+            : this()
         {
             Id = id;
-            Name = name;
-            Email = email;
+            Hoten = hoten;
             Gioitinh = gioitinh;
+            SoDienThoai = soDienThoai; // Đúng tên biến đang dùng
+            Email = email;
             Mota = mota;
             IsSelected = isSelected;
         }
 
-        public User() {
+        public User()
+        {
             IsSelected = false; // Giá trị mặc định
-                                }
+        }
 
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Hoten { get; set; }
         public string Gioitinh { get; set; }
+        public string SoDienThoai { get; set; } // Đảm bảo có thuộc tính này
         public string Email { get; set; }
         public string Mota { get; set; }
-        public bool IsSelected { get; set; } // Dùng để chọn nhiều dòng
+        public bool IsSelected { get; set; }
     }
 }

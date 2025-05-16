@@ -1,4 +1,4 @@
-namespace SalesManagementApp.domain.models
+﻿namespace SalesManagementApp.domain.models
 {
     public class User
     {
@@ -8,7 +8,7 @@ namespace SalesManagementApp.domain.models
             Id = id;
             Hoten = hoten;
             Gioitinh = gioitinh;
-            SoDienThoai = soDienThoai; // Đúng tên biến đang dùng
+            SoDienThoai = soDienThoai; 
             Email = email;
             Mota = mota;
             IsSelected = isSelected;
@@ -22,7 +22,7 @@ namespace SalesManagementApp.domain.models
         public int Id { get; set; }
         public string Hoten { get; set; }
         public string Gioitinh { get; set; }
-        public string SoDienThoai { get; set; } // Đảm bảo có thuộc tính này
+        public string SoDienThoai { get; set; } 
         public string Email { get; set; }
         public string Mota { get; set; }
         public bool IsSelected { get; set; }

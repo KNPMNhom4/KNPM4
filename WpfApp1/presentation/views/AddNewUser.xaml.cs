@@ -1,38 +1,26 @@
-﻿using SalesManagementApp.presentation.viewmodels;
+﻿using SalesManagementApp.domain.models;
+using SalesManagementApp.presentation.viewmodels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace SalesManagementApp.presentation.views
 {
-    /// <summary>
-    /// Interaction logic for AddNewUser.xaml
-    /// </summary>
     public partial class AddNewUser : Page
     {
-        public AddNewUser()
+        private UserViewModel _viewModel;
+
+        public AddNewUser(UserViewModel viewModel)
         {
             InitializeComponent();
-            DataContext = new AddUserViewModel();
+            _viewModel = viewModel;
         }
 
-        private void SaveUser_Click(object sender, RoutedEventArgs e)
+        private async void SaveUser_Click(object sender, RoutedEventArgs e) // ✅ THÊM async
         {
             string hoten = txtHoTen.Text;
             string gioiTinh = cmbGioiTinh.Text;
             string soDienThoai = txtSoDT.Text;
-            string diaChi = txtDiaChi.Text;
             string email = txtEmail.Text;
             string moTa = txtMoTa.Text;
 
@@ -43,8 +31,23 @@ namespace SalesManagementApp.presentation.views
                 return;
             }
 
-            // Hiển thị thông báo lưu thành công (giả lập)
+            // Tạo người dùng mới
+            User newUser = new User
+            {
+                Hoten = hoten,
+                Gioitinh = gioiTinh,
+                SoDienThoai = soDienThoai,
+                Email = email,
+                Mota = moTa
+            };
+
+            // ✅ Gọi đúng hàm xử lý trong ViewModel để lưu xuống file JSON
+            await _viewModel.AddUserToRepository(newUser);
+
             MessageBox.Show("Người dùng đã được lưu thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            // Quay lại trang danh sách người dùng
+            this.NavigationService?.GoBack();
         }
     }
 }

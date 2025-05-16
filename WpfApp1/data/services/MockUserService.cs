@@ -1,4 +1,4 @@
-using SalesManagementApp.domain.models;
+﻿using SalesManagementApp.domain.models;
 using SalesManagementApp.domain.usecases;
 using System;
 using System.Collections.Generic;

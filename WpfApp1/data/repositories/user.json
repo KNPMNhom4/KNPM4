@@ -1,0 +1,38 @@
+[
+  {
+    "Id": 1,
+    "Hoten": "Nguyen Van A",
+    "Gioitinh": "Nam",
+    "SoDienThoai": "0123456789",
+    "Email": "a@example.com",
+    "Mota": "Kh\u00E1ch quen",
+    "IsSelected": false
+  },
+  {
+    "Id": 2,
+    "Hoten": "Le Thi Ba",
+    "Gioitinh": "N\u1EEF",
+    "SoDienThoai": "0987654321",
+    "Email": "b@example.com",
+    "Mota": "Kh\u00E1ch m\u1EDBi",
+    "IsSelected": false
+  },
+  {
+    "Id": 3,
+    "Hoten": "Le Thi Bon",
+    "Gioitinh": "N\u1EEF",
+    "SoDienThoai": "09876321",
+    "Email": "b@exple.com",
+    "Mota": "Kh\u00E1ch m\u1EDBi",
+    "IsSelected": false
+  },
+  {
+    "Id": 4,
+    "Hoten": "ha trung hieu",
+    "Gioitinh": "Nam",
+    "SoDienThoai": "1214825",
+    "Email": "\u1ECBahsfu@jdsg",
+    "Mota": "eg",
+    "IsSelected": false
+  }
+]

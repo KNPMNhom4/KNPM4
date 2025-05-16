@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -6,19 +6,39 @@ using SalesManagementApp.data.repositories;
 using SalesManagementApp.domain.models;
 
 namespace SalesManagementApp.Data.Repositories
-
 {
     public class UserRepository : IUserRepository
     {
-        private readonly string _filePath = Path.Combine(Directory.GetCurrentDirectory(), "users.json");
+        private readonly string _filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "repositories", "user.json");
         private List<User> _users;
+
+        private void EnsureFileExists()
+        {
+            string directory = Path.GetDirectoryName(_filePath);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            if (!File.Exists(_filePath))
+            {
+                File.WriteAllText(_filePath, "[]"); // Tạo file JSON rỗng nếu chưa có
+            }
+        }
 
         public UserRepository()
         {
-            LoadUsersFromFile();
+            EnsureFileExists(); // ✅ Gọi hàm tạo file nếu cần
+            LoadUsersFromFile(); // ✅ Sau đó mới load dữ liệu
         }
 
-        private void LoadUsersFromFile()
+        public async Task<List<User>> GetUsersAsync()
+        {
+            await Task.Delay(500); // Giả lập độ trễ
+            return _users;
+        }
+
+            private void LoadUsersFromFile()
         {
             try
             {
@@ -42,34 +62,33 @@ namespace SalesManagementApp.Data.Repositories
 
         private void SaveUsersToFile()
         {
-            string json = JsonSerializer.Serialize(_users, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(_filePath, json);
-        }
-
-        public async Task<List<User>> GetUsersAsync()
-        {
-            await Task.Delay(500); // Giả lập độ trễ tải dữ liệu
-            return _users;
+            try
+            {
+                string json = JsonSerializer.Serialize(_users, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(_filePath, json);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi khi lưu file: {ex.Message}");
+            }
         }
 
         public async Task AddUserAsync(User user)
         {
             await Task.Delay(500);
+            int maxId = _users.Any() ? _users.Max(u => u.Id) : 0;
+            user.Id = maxId + 1;
 
-            if (_users.Any(u => u.Id == user.Id))
-            {
-                throw new Exception("ID người dùng đã tồn tại!");
-            }
+            _users.Add(user); // ✅ BỔ SUNG DÒNG NÀY
 
-            _users.Add(user);
-            SaveUsersToFile();
+            SaveUsersToFile(); // ✅ Ghi file với dữ liệu mới
         }
 
         public async Task DeleteUserAsync(int id)
         {
-            await Task.Delay(500);
+            await Task.Delay(500); // giả lập độ trễ
             _users.RemoveAll(u => u.Id == id);
-            SaveUsersToFile(); // Lưu lại danh sách sau khi xóa
+            SaveUsersToFile(); // ✅ lưu lại danh sách sau khi xoá
         }
     }
 }

@@ -8,7 +8,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AddNewUser">
 
-    <Grid Background="White">
+    <Grid Background="White" Margin="0,0,0,-168">
         <Border Padding="20" CornerRadius="10" BorderBrush="Gray" BorderThickness="1" Width="400" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Orientation="Vertical" Width="350">
 
@@ -30,10 +30,6 @@
                 <TextBlock Text="Số điện thoại" FontSize="14" Foreground="Black"/>
                 <TextBox x:Name="txtSoDT" Height="30" Margin="0,5,0,10"/>
 
-                <!-- Địa chỉ -->
-                <TextBlock Text="Địa chỉ" FontSize="14" Foreground="Black"/>
-                <TextBox x:Name="txtDiaChi" Height="30" Margin="0,5,0,10"/>
-
                 <!-- Email -->
                 <TextBlock Text="Email" FontSize="14" Foreground="Black"/>
                 <TextBox x:Name="txtEmail" Height="30" Margin="0,5,0,10"/>
@@ -45,6 +41,8 @@
                 <!-- Nút lưu -->
                 <Button Content="Lưu" Width="100" Height="35" Background="Green" Foreground="White"
                         FontWeight="Bold" HorizontalAlignment="Center" Click="SaveUser_Click"/>
+
+                
 
             </StackPanel>
         </Border>

@@ -17,9 +17,7 @@ using System.Windows.Shapes;
 
 namespace SalesManagementApp.presentation.views
 {
-    /// <summary>
-    /// Interaction logic for UserManagementPage.xaml
-    /// </summary>
+    
     public partial class UserManagementPage : Page
     {
         public UserManagementPage()
@@ -39,7 +37,11 @@ namespace SalesManagementApp.presentation.views
         }
         private void ShowAddUserDialog(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new AddNewUser());
+            if (DataContext is UserViewModel viewModel)
+            {
+                AddNewUser addUserPage = new AddNewUser(viewModel); // Truyền ViewModel vào AddNewUser
+                NavigationService.Navigate(addUserPage);
+            }
         }
     }
 }

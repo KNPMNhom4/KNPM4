@@ -21,17 +21,22 @@
                   HeadersVisibility="Column" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
-                <DataGridTextColumn Header="Họ và Tên" Binding="{Binding Name}" Width="200"/>
-                <DataGridTextColumn Header="Giới Tính" Binding="{Binding gioitinh}" Width="70"/>
+                <DataGridTextColumn Header="Họ và Tên" Binding="{Binding Hoten}" Width="200"/>
+                <DataGridTextColumn Header="Giới Tính" Binding="{Binding Gioitinh}" Width="70"/>
+                <DataGridTextColumn Header="Số điện thoại " Binding="{Binding SoDienThoai}" Width="100"/>
                 <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="200"/>
-                <DataGridTextColumn Header="Mô tả" Binding="{Binding Role}" Width="100"/>
+                <DataGridTextColumn Header="Mô tả" Binding="{Binding Mota}" Width="100"/>
                 <DataGridTemplateColumn Header="Thao Tác">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Button Content="🗑 Xóa" Command="{Binding DataContext.DeleteUserCommand, 
-                                    RelativeSource={RelativeSource AncestorType=Page}}"
-                                        CommandParameter="{Binding Id}" Margin="5,0"/>
+                                <Button Content="✏️ Sửa" 
+            Click="EditUser_Click"
+            Tag="{Binding}" Margin="5,0"/>
+
+                                <Button Content="🗑 Xóa" 
+            Command="{Binding DataContext.DeleteUserCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+            CommandParameter="{Binding}" Margin="5,0"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
